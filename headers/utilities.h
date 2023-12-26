@@ -20,6 +20,7 @@
 void print_how_to_use(char* program_name);
 int get_params_code(int argc, char** argv, int mpi_size);
 int check_params(int argc, char** argv, int mpi_size);
+void fileLog(const char *formato, ...);
 
 
 #endif

@@ -82,16 +82,14 @@ int main(int argc, char** argv) {
 
 	
 	
-	
 	/* Se singolo processore allora effettua il prodotto sequenziale, altrimenti parallelo */
 	
 	if (mpi_size != 1) {
 		/* Creazione della griglia e delle sotto-griglie riga e colonna */
-		
+
 		create_grid(
 			&grid, &sub_rgrid, &sub_cgrid, mpi_rank, mpi_size, grid_order, periods, 0, coords
 		);
-		
 		
 		
 		/* 	Allocazione memoria */
@@ -99,6 +97,7 @@ int main(int argc, char** argv) {
 		sub_matrix_a = initialize_matrix(sub_matrix_order);
 		sub_matrix_b = initialize_matrix(sub_matrix_order);
 		sub_matrix_c = initialize_matrix(sub_matrix_order);
+
 
 		if(!mpi_rank && (!sub_matrix_a || !sub_matrix_b || !sub_matrix_c)) {
 			printf("\n <!> ERROR: Unable to allocate memory.\n");
@@ -126,6 +125,7 @@ int main(int argc, char** argv) {
 		} else {
 			receive_matrix_from_processor_0(sub_matrix_a, sub_matrix_order, mpi_rank);
 			receive_matrix_from_processor_0(sub_matrix_b, sub_matrix_order, mpi_rank);
+			fileLog("Sono il proc %d e sono arrivato qua\n",mpi_rank);
 		}
 		
 		/* Sincronizzazione dei processori e salvataggio timestamp di inizio */

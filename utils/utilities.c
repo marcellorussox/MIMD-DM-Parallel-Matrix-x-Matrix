@@ -7,6 +7,29 @@
 #include <time.h>
 #include <mpi.h>
 #include "../headers/utilities.h"
+#include <stdarg.h>
+
+void fileLog(const char *formato, ...){
+    // Apri il file in modalità scrittura
+    FILE *file = fopen("log/log.txt", "a");
+
+    // Verifica se l'apertura del file è riuscita
+    if (file == NULL) {
+        fprintf(stderr, "Errore nell'apertura del file ../log/log.txt\n");
+        return;
+    }
+
+    // Usa la libreria stdarg per gestire i parametri variabili
+    va_list args;
+    va_start(args, formato);
+
+    // Scrivi la stringa formattata nel file
+    vfprintf(file, formato, args);
+
+    // Chiudi il file e libera la memoria associata ai parametri variabili
+    va_end(args);
+    fclose(file);
+}
 
 void print_how_to_use(char* program_name){
     printf(

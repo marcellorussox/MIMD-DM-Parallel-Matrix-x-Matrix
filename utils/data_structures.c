@@ -6,6 +6,7 @@
 #include <limits.h>
 #include <time.h>
 #include <mpi.h>
+#include "../headers/utilities.h"
 #include "../headers/data_structures.h"
 
 
@@ -82,11 +83,18 @@ void receive_matrix_from_processor_0(
 	double* sub_matrix, int sub_matrix_order, int mpi_rank) {
 
 	MPI_Status status;
-	for(int row = 0; row < sub_matrix_order; row++)
+	for(int row = 0; row < sub_matrix_order; row++){
 		MPI_Recv(
 			&sub_matrix[row*sub_matrix_order], sub_matrix_order, MPI_DOUBLE, 
 			0, D_TAG + mpi_rank, MPI_COMM_WORLD, &status
 		);
+		fileLog("MPI process %d received value %d from rank %d, with tag %d and error code %d.\n", 
+               mpi_rank,
+               sub_matrix[row*sub_matrix_order],
+               status.MPI_SOURCE,
+               status.MPI_TAG,
+               status.MPI_ERROR);
+	}
 
 }
 
