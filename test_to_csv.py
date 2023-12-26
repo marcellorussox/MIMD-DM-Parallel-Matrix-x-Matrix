@@ -23,7 +23,7 @@ def extract_out_data(file_path):
     for match in matches:
         test_times = [float(group) for group in match.groups()[1::2]]
         for num_test, time in enumerate(test_times, start=1):
-            data.append((ncpu, order, time))
+            data.append((order, ncpu, time))
 
     return data
 
@@ -40,13 +40,13 @@ def calculate_average_and_sort_pandas(input_csv):
     df = pd.read_csv(input_csv)
 
     # Calcola la media della quarta colonna per ogni tupla delle prime tre colonne uguali
-    df_result = df.groupby(['NCPU', 'ORDER'])['TIME'].mean().reset_index()
+    df_result = df.groupby(['ORDER', 'NCPU'])['TIME'].mean().reset_index()
 
     # Arrotonda i valori a 6 cifre decimali
     df_result['TIME'] = df_result['TIME'].round(6)
 
     # Ordina il DataFrame in base alle colonne specificate
-    df_sorted = df_result.sort_values(by=['NCPU', 'ORDER'], ascending=True)
+    df_sorted = df_result.sort_values(by=['ORDER', 'NCPU'], ascending=True)
 
     # Scrivi il DataFrame ordinato su un nuovo file CSV
     df_sorted.to_csv(input_csv, index=False)
@@ -86,7 +86,7 @@ def main(input_directory, output_csv):
 
     with open(output_csv, 'w', newline='') as csv_file:
         csv_writer = csv.writer(csv_file)
-        csv_writer.writerow(['NCPU', 'ORDER', 'TIME'])
+        csv_writer.writerow(['ORDER', 'NCPU', 'TIME'])
         csv_writer.writerows(all_data)
 
     print(f"I dati sono stati esportati con successo nel file CSV: {output_csv}")
