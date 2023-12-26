@@ -5,7 +5,7 @@
 ###########################
 
 #PBS -q studenti
-#PBS -l nodes=8:ppn=8
+#PBS -l nodes=1:ppn=1
 
 #PBS -N pdc3
 #PBS -o pdc3.out
@@ -43,7 +43,7 @@ echo ------------------------------
 
 /usr/lib64/openmpi/1.4-gcc/bin/mpicc -std=c99 -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/main.c
 
-ORDER=1000
+ORDER=200
 
 for TEST in {1..5}
 do
