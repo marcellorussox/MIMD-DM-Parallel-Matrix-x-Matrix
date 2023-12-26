@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
 	}
 	
 	/* Stampa della matrici generate (solo se con ordine inferiore a 10) */
-	
+		
 	if(!mpi_rank && matrix_order <= 10) {
 		printf("\n > Generated Matrix A \n\n");
 		print_matrix(matrix_a, matrix_order);
@@ -86,7 +86,6 @@ int main(int argc, char** argv) {
 	/* Se singolo processore allora effettua il prodotto sequenziale, altrimenti parallelo */
 	
 	if (mpi_size != 1) {
-		printf("Arrivo qua 2");
 		/* Creazione della griglia e delle sotto-griglie riga e colonna */
 		
 		create_grid(
@@ -100,8 +99,6 @@ int main(int argc, char** argv) {
 		sub_matrix_a = initialize_matrix(sub_matrix_order);
 		sub_matrix_b = initialize_matrix(sub_matrix_order);
 		sub_matrix_c = initialize_matrix(sub_matrix_order);
-
-		printf("Arrivo qua 3");
 
 		if(!mpi_rank && (!sub_matrix_a || !sub_matrix_b || !sub_matrix_c)) {
 			printf("\n <!> ERROR: Unable to allocate memory.\n");
