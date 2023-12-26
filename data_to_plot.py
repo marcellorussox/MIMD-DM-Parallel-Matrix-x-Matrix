@@ -1,5 +1,3 @@
-import math
-
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -9,13 +7,12 @@ def create_graphs(df, x_col, y_cols, x_min=None, x_max=None):
     if x_min is not None and x_max is not None:
         df = df[(df[x_col] >= x_min) & (df[x_col] <= x_max)]
 
-    grouped_data = df.groupby(['NCPU', 'ORDER'])
+    grouped_data = df.groupby(['ORDER'])
 
-    for (rows, columns), group in grouped_data:
+    for order, group in grouped_data:
+        order = order[0]
         plt.figure()
 
-        rows_exp = int(math.log10(rows))
-        columns_exp = int(math.log10(columns))
         margin_percent = 0.25
 
         for y_col in y_cols:
@@ -27,12 +24,13 @@ def create_graphs(df, x_col, y_cols, x_min=None, x_max=None):
 
             plt.plot(group[x_col], group[y_col])
 
-            plt.title(f'(Matrix 10^{rows_exp} x 10^{columns_exp}) x (Vector 10^{columns_exp})')
-            plt.xlabel('Number of threads')
+            plt.title(f'(Matrix {order} x Matrix {order})')
+            plt.xlabel('Number of processes')
             plt.ylabel(y_col.capitalize())
             plt.ylim(y_range)
+            plt.xticks(group[x_col].unique())
 
-            plt.savefig(f'output/plots/plot_{y_col.lower()}_10_{rows_exp}x10_{columns_exp}.png')
+            plt.savefig(f'output/plots/plot_{y_col.lower()}_{order}.png')
             plt.close()
 
 
@@ -44,7 +42,7 @@ def create_graphs(df, x_col, y_cols, x_min=None, x_max=None):
 #        for (rows, columns), group in grouped_data:
 #            rows_exp = int(math.log10(rows))
 #            columns_exp = int(math.log10(columns))
-#            plt.plot(group[x_col], group[y_col],
+#            plt.plots(group[x_col], group[y_col],
 #                     label=f'(Matrix 10^{rows_exp} x 10^{columns_exp}) x (Vector 10^{columns_exp})')
 #            order = rows_exp + columns_exp
 #
@@ -58,4 +56,4 @@ def create_graphs(df, x_col, y_cols, x_min=None, x_max=None):
 
 # Esempio di utilizzo con intervallo per le ascisse
 csv = pd.read_csv('data.csv')
-create_graphs(csv, 'NCPU', ['TIME', 'SPEEDUP', 'EFFICIENCY'], x_min=1, x_max=8)
+create_graphs(csv, 'NCPU', ['TIME', 'SPEEDUP', 'EFFICIENCY'], x_min=1, x_max=64)
