@@ -81,9 +81,10 @@ int get_params_code(int argc, char** argv, int mpi_size) {
 	
 }
 
-int check_params(int argc, char** argv, int mpi_size){
+int check_params(int argc, char** argv, int mpi_size, int mpi_rank){
     int errorCode = get_params_code(argc,argv,mpi_size);
-    switch(errorCode) {
+	if(!mpi_rank) {	
+    	switch(errorCode) {
 			
 			case SCC_HELP:
 				print_how_to_use(argv[0]);
@@ -117,17 +118,19 @@ int check_params(int argc, char** argv, int mpi_size){
 				);
 				break;			
 		}
-		
+
 		if(errorCode != SCC_ARGS && errorCode != SCC_HELP)
 			MPI_Abort(MPI_COMM_WORLD, errorCode); 
+	}	
 
-        if(mpi_size != 1)
-		    MPI_Bcast(&errorCode, 1, MPI_INT, 0, MPI_COMM_WORLD);
-        if(errorCode == SCC_HELP) {
-            MPI_Finalize();
-            exit(0);
-        }
-        return 0;
+	if(mpi_size != 1)
+		MPI_Bcast(&errorCode, 1, MPI_INT, 0, MPI_COMM_WORLD);
+	if(errorCode == SCC_HELP) {
+		MPI_Finalize();
+		exit(0);
+	}
+    
+	return 0;
 }
 
 

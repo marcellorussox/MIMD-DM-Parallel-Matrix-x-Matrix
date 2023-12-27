@@ -68,11 +68,12 @@ void send_matrix_from_processor_0(
 		MPI_Cart_coords(grid, processor, 2, coords);
 		start_row = coords[0] * sub_matrix_order;
 		start_column = coords[1] * sub_matrix_order;
-		for(int row_offset = 0; row_offset < sub_matrix_order; row_offset++)
+		for(int row_offset = 0; row_offset < sub_matrix_order; row_offset++){
 			MPI_Send(
 				&matrix[(start_row+row_offset)*matrix_order+start_column], 
 				sub_matrix_order, MPI_DOUBLE, processor, D_TAG + processor, MPI_COMM_WORLD
 			);
+		}
 	}
 
 }
