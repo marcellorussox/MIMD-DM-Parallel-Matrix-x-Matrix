@@ -125,7 +125,6 @@ int main(int argc, char** argv) {
 		} else {
 			receive_matrix_from_processor_0(sub_matrix_a, sub_matrix_order, mpi_rank);
 			receive_matrix_from_processor_0(sub_matrix_b, sub_matrix_order, mpi_rank);
-			fileLog("Sono il proc %d e sono arrivato qua\n",mpi_rank);
 		}
 		
 		/* Sincronizzazione dei processori e salvataggio timestamp di inizio */
