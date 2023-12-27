@@ -44,10 +44,7 @@ int main(int argc, char** argv) {
 	
 	
 	/* Controllo degli argomenti */
-	
-	if(!mpi_rank) {	
-		check_params(argc, argv, mpi_size);	
-	}
+	check_params(argc, argv, mpi_size, mpi_rank);	
 	
 	
 	/* Lettura e distribuzione degli argomenti passati in ingresso */
@@ -111,6 +108,8 @@ int main(int argc, char** argv) {
 			}
 		}
 		
+
+
 		
 		/* Distribuzione delle matrici */
 		
@@ -126,7 +125,9 @@ int main(int argc, char** argv) {
 			receive_matrix_from_processor_0(sub_matrix_a, sub_matrix_order, mpi_rank);
 			receive_matrix_from_processor_0(sub_matrix_b, sub_matrix_order, mpi_rank);
 		}
-		
+	
+		fileLog("Sono il processore %d e sono arrivato al barrier",mpi_rank);
+
 		/* Sincronizzazione dei processori e salvataggio timestamp di inizio */
 		
 		MPI_Barrier(MPI_COMM_WORLD);
