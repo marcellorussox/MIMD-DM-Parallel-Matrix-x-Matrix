@@ -41,7 +41,7 @@ echo ------------------------------
 ##     Compilazione     ##
 ##########################
 
-/usr/lib64/openmpi/1.4-gcc/bin/mpicc -std=c99 -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/main.c
+/usr/lib64/openmpi/1.4-gcc/bin/mpicc -std=c99 -o $PBS_O_WORKDIR/main $PBS_O_WORKDIR/main.c $PBS_O_WORKDIR/utils/*
 
 ORDER=200
 
