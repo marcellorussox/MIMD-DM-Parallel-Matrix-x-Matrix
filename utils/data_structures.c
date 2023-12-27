@@ -68,11 +68,12 @@ void send_matrix_from_processor_0(
 		MPI_Cart_coords(grid, processor, 2, coords);
 		start_row = coords[0] * sub_matrix_order;
 		start_column = coords[1] * sub_matrix_order;
-		for(int row_offset = 0; row_offset < sub_matrix_order; row_offset++)
+		for(int row_offset = 0; row_offset < sub_matrix_order; row_offset++){
 			MPI_Send(
 				&matrix[(start_row+row_offset)*matrix_order+start_column], 
 				sub_matrix_order, MPI_DOUBLE, processor, D_TAG + processor, MPI_COMM_WORLD
 			);
+		}
 	}
 
 }
@@ -202,7 +203,7 @@ void merge(
 	int start_columns;
 	int coords[2];
 
-	if(!mpi_rank) {  // Se il chiamante � il processore 0 allora si riceve
+	if(!mpi_rank) {  // Se il chiamante è il processore 0 allora si riceve
 		
 		/* Si scorre su tutti i processori */
 		
@@ -212,7 +213,7 @@ void merge(
 			start_row = coords[0] * sub_matrix_order;
 			start_columns = coords[1] * sub_matrix_order;
 			
-			if(processor) {  // Se non � il processore 0 allora si riceve
+			if(processor) {  // Se non è il processore 0 allora si riceve
 				for(int row_offset = 0; row_offset < sub_matrix_order; row_offset++) {
 					MPI_Recv(
 						&sub_matrix_c[row_offset*sub_matrix_order], sub_matrix_order,
