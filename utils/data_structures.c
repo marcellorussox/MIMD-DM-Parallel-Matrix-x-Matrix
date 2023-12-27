@@ -23,8 +23,7 @@ double* generate_random_matrix(int matrix_order) {
 	if(matrix) {
 		for(int i = 0; i < matrix_order; i++)
 			for(int j = 0; j < matrix_order; j++)
-				//matrix[i*matrix_order+j] = (double)rand()/(double)RAND_MAX;
-				matrix[i*matrix_order+j] = 1;
+				matrix[i*matrix_order+j] = (double)rand()/(double)RAND_MAX;
 	}
     return matrix;
 	
@@ -88,12 +87,6 @@ void receive_matrix_from_processor_0(
 			&sub_matrix[row*sub_matrix_order], sub_matrix_order, MPI_DOUBLE, 
 			0, D_TAG + mpi_rank, MPI_COMM_WORLD, &status
 		);
-		fileLog("MPI process %d received value %d from rank %d, with tag %d and error code %d.\n", 
-               mpi_rank,
-               sub_matrix[row*sub_matrix_order],
-               status.MPI_SOURCE,
-               status.MPI_TAG,
-               status.MPI_ERROR);
 	}
 
 }
