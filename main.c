@@ -71,9 +71,9 @@ int main(int argc, char** argv) {
 	/* Stampa della matrici generate (solo se con ordine inferiore a 10) */
 		
 	if(!mpi_rank && matrix_order <= 10) {
-		printf("\n > Generated Matrix A \n\n");
+		printf("\n <=== Generated Matrix A ===>\n\n");
 		print_matrix(matrix_a, matrix_order);
-		printf("\n\n > Generated Matrix B \n\n");
+		printf("\n\n <=== Generated Matrix B ===>\n\n");
 		print_matrix(matrix_b, matrix_order);
 	}
 
@@ -180,7 +180,7 @@ int main(int argc, char** argv) {
 	
 	if(!mpi_rank) {
 		if(matrix_order <= 10) {
-			printf("\n\n > Product Matrix C \n\n");
+			printf("\n\n <=== Product Matrix C ===>\n\n");
 			print_matrix(matrix_c, matrix_order);
 		}
 		printf(" Overall time: %lf\n", max_time);
